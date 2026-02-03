@@ -37,13 +37,21 @@ class ApiService {
   }
 
   /// GET 요청
-  Future<Response> get(String path) async {
-    return await _dio.get(path);
+  Future<Response> get(String path, {Map<String, dynamic>? queryParameters}) async {
+    return await _dio.get(path, queryParameters: queryParameters);
   }
 
   /// POST 요청
-  Future<Response> post(String path, {dynamic data}) async {
-    return await _dio.post(path, data: data);
+  Future<Response> post(
+      String path, {
+        dynamic data,
+        Map<String, dynamic>? queryParameters,
+      }) async {
+    return await _dio.post(
+      path,
+      data: data,
+      queryParameters: queryParameters,
+    );
   }
 
   /// PUT 요청

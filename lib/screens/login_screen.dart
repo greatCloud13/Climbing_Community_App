@@ -5,6 +5,8 @@ import '../widgets/custom_text_field.dart';
 import '../widgets/custom_button.dart';
 import 'signup_screen.dart';
 import 'home_screen.dart';
+import 'gym_manager_home_screen.dart';
+import 'admin_home_screen.dart';
 
 /// 로그인 화면
 class LoginScreen extends StatefulWidget {
@@ -42,9 +44,23 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!mounted) return;
 
     if (success) {
-      // 로그인 성공 - 홈 화면으로 이동
+      // 로그인 성공 - 역할별 홈 화면으로 이동
+      final user = authProvider.user;
+      Widget homeScreen;
+
+      switch (user?.role) {
+        case 'ADMIN':
+          homeScreen = const AdminHomeScreen();
+          break;
+        case 'GYM_MANAGER':
+          homeScreen = const GymManagerHomeScreen();
+          break;
+        default:
+          homeScreen = const HomeScreen();
+      }
+
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const HomeScreen()),
+        MaterialPageRoute(builder: (_) => homeScreen),
       );
     } else {
       // 로그인 실패 - 에러 메시지 표시
